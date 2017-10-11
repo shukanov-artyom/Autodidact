@@ -12,5 +12,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
 </Project>
