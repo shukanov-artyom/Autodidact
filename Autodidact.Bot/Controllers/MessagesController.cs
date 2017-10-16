@@ -3,32 +3,18 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace HelloBot
+namespace Bot.Controllers
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        /// <summary>
-        /// POST: api/Messages
-        /// Receive a message from a user and reply to it
-        /// looks like usual web api Action.
-        /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            // create client for Connector.
-//            var connectorClient = new ConnectorClient(new Uri(activity.ServiceUrl));
-//            Activity replyActivity =
-//                activity.CreateReply("Hello this is a new kind of reply");
-//            await connectorClient.Conversations.ReplyToActivityAsync(replyActivity);
-//            var response = Request.CreateResponse(HttpStatusCode.OK);
-//            return response;
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.CounterDialog());
-                //await Conversation.SendAsync(activity, () => new Dialogs.EchoDialog());
+                await new InitialMessageHandler(activity).HandleAsync();
             }
             else
             {
@@ -40,31 +26,7 @@ namespace HelloBot
 
         private Activity HandleSystemMessage(Activity message)
         {
-            if (message.Type == ActivityTypes.DeleteUserData)
-            {
-                // Implement user deletion here
-                // If we handle user deletion, return a real message
-            }
-            else if (message.Type == ActivityTypes.ConversationUpdate)
-            {
-                // Handle conversation state changes, like members being added and removed
-                // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
-                // Not available in all channels
-            }
-            else if (message.Type == ActivityTypes.ContactRelationUpdate)
-            {
-                // Handle add/remove from contact lists
-                // Activity.From + Activity.Action represent what happened
-            }
-            else if (message.Type == ActivityTypes.Typing)
-            {
-                // Handle knowing tha the user is typing
-            }
-            else if (message.Type == ActivityTypes.Ping)
-            {
-            }
-
-            return null;
+            return new SystemMessageHandler().Handle(message);
         }
     }
 }

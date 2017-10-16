@@ -1,7 +1,6 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
 
-namespace HelloBot
+namespace Bot
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Web.Http;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
 
-namespace HelloBot
+namespace Bot
 {
     public static class WebApiConfig
     {
