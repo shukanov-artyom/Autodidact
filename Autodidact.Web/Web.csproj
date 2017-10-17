@@ -12,6 +12,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IdentityServer.Variables\IdentityServer.Variables.csproj" />
+  </ItemGroup>
   
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>

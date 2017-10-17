@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Bot.Connector;
+﻿using Microsoft.Bot.Connector;
 
-namespace Bot.Controllers
+namespace Bot.Utils
 {
     public class SystemMessageHandler
     {

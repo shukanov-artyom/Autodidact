@@ -117,7 +117,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\SystemMessageHandler.cs" />
+    <Compile Include="Utils\SystemMessageHandler.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\SubmitLinkDialog.cs" />
     <Compile Include="Global.asax.cs">

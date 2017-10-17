@@ -4,9 +4,8 @@
 using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Web;
 
-namespace MvcClient
+namespace Web
 {
     public class Program
     {
