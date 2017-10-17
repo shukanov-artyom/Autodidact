@@ -116,16 +116,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\InitialMessageHandler.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\SystemMessageHandler.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
+    <Compile Include="Dialogs\SubmitLinkDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ApplicationOperation.cs" />
-    <Compile Include="Models\ApplicationOperationType.cs" />
+    <Compile Include="Models\ApplicationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\ChannelUserInfo.cs" />
+    <Compile Include="Utils\LinkDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Bot.Models;
+using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 
 namespace Bot.Dialogs
@@ -10,34 +11,57 @@ namespace Bot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
-        public async Task StartAsync(IDialogContext context)
+        public async Task StartAsync(
+            IDialogContext context)
         {
-            context.Wait(this.MessageReceivedAsync);
+            await context.SayAsync("Hi user!");
+            context.Wait(MessageReceivedAsync);
         }
 
         protected virtual async Task MessageReceivedAsync(
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
-            var appOperationDialog = FormDialog
-                .FromForm(ApplicationOperation.BuildForm);
-            context.Call(appOperationDialog, ResumeAfterCallback);
+            IMessageActivity msg = await result;
+            await RecognizeUserAsync(new ChannelUserInfo(msg));
+            if (new LinkDetector(msg.Text).IsLink())
+            {
+                await context.Forward(
+                    new SubmitLinkDialog(),
+                    RestartProcessing,
+                    msg,
+                    CancellationToken.None);
+            }
+            else
+            {
+                PromptDialog.Choice(
+                    context,
+                    OnOptionSelected,
+                    new ApplicationOptions(),
+                    "What to start with?");
+            }
+            // TODO : Continue messages processing
         }
 
-        private async Task ResumeAfterCallback(IDialogContext context,
-            IAwaitable<ApplicationOperation> result)
+        private async Task OnOptionSelected(
+            IDialogContext context,
+            IAwaitable<string> selectionResult)
         {
-            ApplicationOperation model = await result;
-            if (model.OperationType ==
-                ApplicationOperationType.ReportConsumedDocument)
-            {
-                throw new NotImplementedException();
-            }
-            else if (model.OperationType ==
-                     ApplicationOperationType.RetrieveConsumedDocuments)
-            {
-                throw new NotImplementedException();
-            }
+            context.Wait(MessageReceivedAsync);
+        }
+
+        private async Task RecognizeUserAsync(ChannelUserInfo userInfo)
+        {
+            // TODO : query API asynchronously
+            // and clarify whether we already know this user.
+            throw new NotImplementedException();
+        }
+
+        private async Task RestartProcessing(
+            IDialogContext context,
+            IAwaitable<object> awaitable)
+        {
+            context.Wait(MessageReceivedAsync);
         }
     }
 }
