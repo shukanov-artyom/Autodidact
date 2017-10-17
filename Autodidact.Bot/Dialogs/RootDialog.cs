@@ -53,8 +53,7 @@ namespace Bot.Dialogs
         private async Task RecognizeUserAsync(ChannelUserInfo userInfo)
         {
             // TODO : query API asynchronously
-            // and clarify whether we already know this user.
-            throw new NotImplementedException();
+            // TODO : and clarify whether we already know this user.
         }
 
         private async Task RestartProcessing(
