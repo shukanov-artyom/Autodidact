@@ -1,4 +1,5 @@
 ﻿using IdentityServer4;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,10 @@ namespace IdentityServer
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddTestUsers(Config.GetUsers());
+
+            // add database users store like this:
+            // Also look at this SO https://stackoverflow.com/questions/35304038/identityserver4-register-userservice-and-get-users-from-database-in-asp-net-core
+            // services.AddTransient<IResourceOwnerPasswordValidator, MyResourceOwnerPasswordValidator>();
 
             services.AddAuthentication()
                 .AddGoogle("Google", options =>

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using IdentityServer.Quickstart;
 using Microsoft.AspNetCore.Authentication;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;

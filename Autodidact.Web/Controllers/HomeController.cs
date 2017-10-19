@@ -1,12 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using IdentityModel.Client;
+using IdentityServer.Variables;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
-namespace MvcClient.Controllers
+namespace Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -36,8 +37,10 @@ namespace MvcClient.Controllers
 
         public async Task<IActionResult> CallApiUsingClientCredentials()
         {
-            var tokenClient = new TokenClient("http://localhost:5000/connect/token", "mvc", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
+            var tokenClient = new TokenClient("http://localhost:5000/connect/token",
+                SecurityConstants.MvcName, "secret");
+            var tokenResponse = await tokenClient
+                .RequestClientCredentialsAsync(SecurityConstants.ApiName);
 
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
