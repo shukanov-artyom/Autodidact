@@ -4,7 +4,7 @@ using SecurityTokenService.Models;
 
 namespace SecurityTokenService.Data
 {
-    public class ApplicationDbContext : 
+    public class ApplicationDbContext :
         IdentityDbContext<ApplicationUser, ApplicationUserRole, long>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

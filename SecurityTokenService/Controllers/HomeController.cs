@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using IdentityServerWithAspNetIdentity.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Quickstart.UI;
+using SecurityTokenService.Quickstart.Home;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
