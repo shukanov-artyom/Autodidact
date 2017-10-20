@@ -1,5 +1,6 @@
 using IdentityServerWithAspNetIdentity.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using SecurityTokenService.Controllers;
 
 namespace SecurityTokenService.Extensions
 {

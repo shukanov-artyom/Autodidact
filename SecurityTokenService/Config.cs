@@ -1,12 +1,9 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
+﻿using System.Collections.Generic;
+using IdentityServer.Variables;
 using IdentityServer4;
 using IdentityServer4.Models;
-using System.Collections.Generic;
-using System.Security.Claims;
 
-namespace IdentityServerWithAspNetIdentity
+namespace SecurityTokenService
 {
     public class Config
     {
@@ -24,7 +21,7 @@ namespace IdentityServerWithAspNetIdentity
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource(SecurityConstants.ApiName, "My API")
             };
         }
 
@@ -43,7 +40,7 @@ namespace IdentityServerWithAspNetIdentity
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { SecurityConstants.ApiName }
                 },
 
                 // resource owner password grant client
@@ -56,13 +53,13 @@ namespace IdentityServerWithAspNetIdentity
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { SecurityConstants.ApiName }
                 },
 
                 // OpenID Connect hybrid flow and client credentials client (MVC)
                 new Client
                 {
-                    ClientId = "mvc",
+                    ClientId = SecurityConstants.MvcName,
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
@@ -80,7 +77,7 @@ namespace IdentityServerWithAspNetIdentity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        SecurityConstants.ApiName
                     },
                     AllowOfflineAccess = true
                 }

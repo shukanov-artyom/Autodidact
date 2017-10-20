@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using SecurityTokenService;
 
-namespace IdentityServerWithAspNetIdentity
+namespace SecurityTokenService
 {
     public class Program
     {
