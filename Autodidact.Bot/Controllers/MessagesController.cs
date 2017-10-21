@@ -15,6 +15,10 @@ namespace Bot.Controllers
     {
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
+            if (activity == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Argument is null");
+            }
             if (activity.Type == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new RootDialog());

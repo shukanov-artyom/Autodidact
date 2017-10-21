@@ -22,7 +22,7 @@ namespace Bot.Dialogs
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
-            IMessageActivity msg = await result;
+            var msg = await result;
             await RecognizeUserAsync(new ChannelUserInfo(msg));
             if (new LinkDetector(msg.Text).IsLink())
             {
@@ -58,8 +58,10 @@ namespace Bot.Dialogs
 
         private async Task RestartProcessing(
             IDialogContext context,
-            IAwaitable<object> awaitable)
+            IAwaitable<int> awaitable)
         {
+            var message = await awaitable;
+            await context.PostAsync("Thanks!");
             context.Wait(MessageReceivedAsync);
         }
     }
