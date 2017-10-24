@@ -1,12 +1,31 @@
-﻿using IdentityServer.Variables;
+﻿using System;
+using IdentityServer.Variables;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Api
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
+        public IContainer ApplicationContainer { get; private set; }
+
+        public IConfigurationRoot Configuration { get; }
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore()
                 .AddAuthorization()
@@ -20,6 +39,16 @@ namespace Api
 
                     options.ApiName = SecurityConstants.ApiName;
                 });
+
+            var builder = new ContainerBuilder();
+            //builder.RegisterModule<CqrsModule>();
+            //builder.RegisterModule<PersistencyModule>();
+            //builder.RegisterModule<ServicesModule>();
+            //builder.RegisterModule<AutoMapperModule>();
+            builder.Populate(services);
+
+            ApplicationContainer = builder.Build();
+            return new AutofacServiceProvider(ApplicationContainer);
         }
 
         public void Configure(IApplicationBuilder app)

@@ -10,7 +10,6 @@ namespace Bot.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            await context.SayAsync("Entering SubmitLinkDialog");
             context.Wait(ProcessMessageAsync);
         }
 

@@ -9,8 +9,6 @@ namespace Domain
     {
         public string ChannelType { get; set; }
 
-        public string UserEmail { get; set; }
-
         public string ChannelUserId { get; set; }
     }
 }

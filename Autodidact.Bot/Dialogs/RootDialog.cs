@@ -14,7 +14,6 @@ namespace Bot.Dialogs
         public async Task StartAsync(
             IDialogContext context)
         {
-            await context.SayAsync("Hi user!");
             context.Wait(MessageReceivedAsync);
         }
 
@@ -23,7 +22,6 @@ namespace Bot.Dialogs
             IAwaitable<IMessageActivity> result)
         {
             var msg = await result;
-            await RecognizeUserAsync(new ChannelUserInfo(msg));
             if (new LinkDetector(msg.Text).IsLink())
             {
                 await context.Forward(
@@ -48,12 +46,6 @@ namespace Bot.Dialogs
             IAwaitable<string> selectionResult)
         {
             context.Wait(MessageReceivedAsync);
-        }
-
-        private async Task RecognizeUserAsync(ChannelUserInfo userInfo)
-        {
-            // TODO : query API asynchronously
-            // TODO : and clarify whether we already know this user.
         }
 
         private async Task RestartProcessing(
