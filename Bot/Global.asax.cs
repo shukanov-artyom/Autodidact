@@ -27,6 +27,7 @@ namespace Bot
             builder.RegisterWebApiModelBinderProvider();
 
             builder.RegisterModule<ServicesModule>();
+            builder.RegisterModule<SettingsModule>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

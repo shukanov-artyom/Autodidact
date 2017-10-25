@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac;
-using Bot.Service;
+using Bot.Services;
 
 namespace Bot.Module
 {

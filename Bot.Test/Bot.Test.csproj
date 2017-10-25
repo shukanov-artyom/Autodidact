@@ -67,7 +67,7 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Autodidact.Bot\Bot.csproj">
+    <ProjectReference Include="..\Bot\Bot.csproj">
       <Project>{1E154F1B-1A72-4E34-AD57-41136DF4EB22}</Project>
       <Name>Bot</Name>
     </ProjectReference>

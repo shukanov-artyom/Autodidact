@@ -10,6 +10,7 @@ namespace Bot.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
+            context.PostAsync("Enter RegistrationDialog");
             context.Wait(MessageReceivedAsync);
         }
 

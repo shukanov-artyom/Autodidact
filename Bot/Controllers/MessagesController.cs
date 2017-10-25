@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bot.Dialogs;
 using Bot.Models;
-using Bot.Service;
+using Bot.Services;
 using Bot.Utils;
 using Domain;
 using Microsoft.Bot.Builder.Dialogs;
@@ -23,24 +23,14 @@ namespace Bot.Controllers
             this.userService = userService;
         }
 
+        [UserRegistered]
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                IMessageActivity message = activity as IMessageActivity;
-                bool isRegisteredUser = await IsUserRegisteredAsync(message);
-                if (isRegisteredUser)
-                {
-                    await Conversation.SendAsync(
-                        activity,
-                        () => new RootDialog());
-                }
-                else
-                {
-                    await Conversation.SendAsync(
-                        activity,
-                        () => new RegistrationDialog());
-                }
+                await Conversation.SendAsync(
+                    activity,
+                    () => new RootDialog());
             }
             else
             {
@@ -53,18 +43,6 @@ namespace Bot.Controllers
         private void HandleSystemMessage(Activity message)
         {
             new SystemMessageHandler().Handle(message);
-        }
-
-        private async Task<bool> IsUserRegisteredAsync(
-            IMessageActivity activity)
-        {
-            ChannelUserInfo userInfo = new ChannelUserInfo(activity);
-            var botChannel = new UserBotChannel
-            {
-                ChannelType = userInfo.ChannelId,
-                ChannelUserId = userInfo.UserId
-            };
-            return await userService.IsUserRegisteredAsync(botChannel);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<bool> Index([FromBody]UserBotChannel channel)
         {
-            return true;
+            return false;
         }
     }
 }
