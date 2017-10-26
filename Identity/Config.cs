@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using IdentityServer.Variables;
+using Identity.Variables;
 using IdentityServer4;
 using IdentityServer4.Models;
 

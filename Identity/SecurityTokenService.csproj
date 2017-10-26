@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServer.Variables\IdentityServer.Variables.csproj" />
+    <ProjectReference Include="..\Identity.Variables\Identity.Variables.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

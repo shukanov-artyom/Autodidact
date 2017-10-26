@@ -9,6 +9,7 @@ namespace Api.Controllers
     {
         [Route("api/User/IsRegistered")]
         [HttpPost]
+        [ResponseCache(Duration = 120)]
         public async Task<bool> Index([FromBody]UserBotChannel channel)
         {
             return false;

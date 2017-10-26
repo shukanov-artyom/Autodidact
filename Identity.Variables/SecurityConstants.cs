@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IdentityServer.Variables
+namespace Identity.Variables
 {
     public static class SecurityConstants
     {

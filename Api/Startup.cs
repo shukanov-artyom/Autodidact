@@ -1,11 +1,11 @@
 ﻿using System;
-using IdentityServer.Variables;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Identity.Variables;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 
 namespace Api
 {
@@ -54,7 +54,6 @@ namespace Api
         public void Configure(IApplicationBuilder app)
         {
             app.UseAuthentication();
-
             app.UseMvc();
         }
     }
