@@ -4,10 +4,12 @@ namespace Api.DataModel
 {
     public class ChannelUserEntity
     {
+        public long Id { get; set; }
+
         /// <summary>
         /// Reference to User Id in STS database.
         /// </summary>
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         /// <summary>
         /// Skype / slack / telegram etc

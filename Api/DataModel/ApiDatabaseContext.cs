@@ -1,43 +1,29 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Api.Options;
-using Microsoft.Extensions.Options;
 
 namespace Api.DataModel
 {
     public class ApiDatabaseContext : DbContext
     {
-        private readonly PersistencyOptions databaseOptions;
-        private readonly string connectionString;
-
-        public ApiDatabaseContext(string connectionString)
+        public ApiDatabaseContext(
+            DbContextOptions<ApiDatabaseContext> databaseOptions)
+            : base(databaseOptions)
         {
-            this.connectionString = connectionString;
         }
 
-        public ApiDatabaseContext(IOptions<PersistencyOptions> databaseOptions)
-        {
-            this.databaseOptions = databaseOptions.Value;
-        }
+        public DbSet<ChannelUserEntity> ChannelUsers { get; set; }
+
+        public DbSet<ConfirmationCodeEntity> ConfirmationCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ChannelUserEntity>()
+                .ToTable("ChannelUsers")
+                .HasKey(pk => pk.Id);
+            modelBuilder.Entity<ConfirmationCodeEntity>()
+                .ToTable("ConfirmationCodes")
+                .HasKey(pk => new { pk.UserId, pk.ChannelUserId });
             base.OnModelCreating(modelBuilder);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //string selectedConnectionString;
-            //if (databaseOptions != null)
-            //{
-            //    selectedConnectionString = databaseOptions.WarnerDatabase;
-            //}
-            //else
-            //{
-            //    selectedConnectionString = connectionString;
-            //}
-            //optionsBuilder.UseSqlServer(selectedConnectionString);
-            //base.OnConfiguring(optionsBuilder);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Bot.Api.Gateway
@@ -27,6 +28,23 @@ namespace Bot.Api.Gateway
                     var awaitable = client.GetAsync(apiAddress);
                     awaitable.Wait();
                     return ParseResponse<TResult>(awaitable.Result);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
+        protected async Task<TResult> QueryParseAsync<TResult>(string apiAddress)
+            where TResult : class
+        {
+            using (HttpClient client = GetClient())
+            {
+                try
+                {
+                    var result = await client.GetAsync(apiAddress);
+                    return ParseResponse<TResult>(result);
                 }
                 catch (AggregateException ag)
                 {

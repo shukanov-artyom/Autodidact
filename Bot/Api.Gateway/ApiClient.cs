@@ -1,9 +1,10 @@
 ﻿using System;
+using Api.Interfaces;
 using Domain;
 
 namespace Bot.Api.Gateway
 {
-    public class ApiClient : WebServiceClientBase, IDisposable
+    public class ApiClient : WebServiceClientBase, IAutodidactApi, IDisposable
     {
         public ApiClient(ApiSettings settings)
             : base(settings.ApiEndpointAddress)
@@ -21,6 +22,16 @@ namespace Bot.Api.Gateway
                 string r = e.ToString();
                 throw;
             }
+        }
+
+        public void SetConfirmationCodeForUser(long userId, string confirmationCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendConfirmationCode(UserBotChannel channelUser, string confirmationCode)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()

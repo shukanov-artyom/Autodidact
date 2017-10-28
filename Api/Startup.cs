@@ -1,9 +1,12 @@
 ﻿using System;
+using Api.DataModel;
+using Api.Modules;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Identity.Variables;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -41,10 +44,11 @@ namespace Api
                 });
 
             var builder = new ContainerBuilder();
-            //builder.RegisterModule<CqrsModule>();
-            //builder.RegisterModule<PersistencyModule>();
-            //builder.RegisterModule<ServicesModule>();
-            //builder.RegisterModule<AutoMapperModule>();
+            string connectionString = Configuration
+                .GetSection("ConnectionStrings")["ApiDatabase"];
+            services.AddDbContext<ApiDatabaseContext>(
+                options => options.UseSqlServer(connectionString));
+            builder.RegisterModule<PersistencyModule>();
             builder.Populate(services);
 
             ApplicationContainer = builder.Build();
