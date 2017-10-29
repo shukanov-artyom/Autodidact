@@ -9,7 +9,6 @@ namespace Api
         public static void Main(string[] args)
         {
             Console.Title = "API";
-
             BuildWebHost(args).Run();
         }
 

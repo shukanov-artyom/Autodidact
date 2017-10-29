@@ -17,12 +17,26 @@ namespace Api.DataModel
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure ChannelUserEntity
             modelBuilder.Entity<ChannelUserEntity>()
                 .ToTable("ChannelUsers")
                 .HasKey(pk => pk.Id);
+
+            // Configure ConfirmationCodeEntity
             modelBuilder.Entity<ConfirmationCodeEntity>()
                 .ToTable("ConfirmationCodes")
                 .HasKey(pk => new { pk.UserId, pk.ChannelUserId });
+
+            // Configure DocumentEntity
+            modelBuilder.Entity<DocumentEntity>()
+                .ToTable("Documents")
+                .HasIndex(un => un.Link).IsUnique();
+            modelBuilder.Entity<DocumentEntity>()
+                .HasOne<ChannelUserEntity>()
+                .WithMany()
+                .HasForeignKey(d => d.ChannelUserId);
+            modelBuilder.Entity<ChannelUserEntity>()
+                .HasAlternateKey(k => new { k.ChannelType, k.ChannelUserId });
             base.OnModelCreating(modelBuilder);
         }
     }

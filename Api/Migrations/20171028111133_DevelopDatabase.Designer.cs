@@ -11,9 +11,10 @@ using System;
 namespace Api.Migrations
 {
     [DbContext(typeof(ApiDatabaseContext))]
-    partial class ApiDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20171028111133_DevelopDatabase")]
+    partial class DevelopDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,17 +26,13 @@ namespace Api.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ChannelType")
-                        .IsRequired();
+                    b.Property<string>("ChannelType");
 
-                    b.Property<string>("ChannelUserId")
-                        .IsRequired();
+                    b.Property<string>("ChannelUserId");
 
                     b.Property<long>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("ChannelType", "ChannelUserId");
 
                     b.ToTable("ChannelUsers");
                 });
