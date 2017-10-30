@@ -9,10 +9,15 @@ namespace Bot.Test
     {
         [Theory]
         [InlineData(
-            "sts.endpoint.com",
+            "https://sts.endpoint.com:5001",
             "SOMECHANNELID",
             "SOMEUSERID",
-            "https://sts.endpoint.com/BotAccount/Register?ChannelId=SOMECHANNELID&UserId=SOMEUSERID")]
+            "https://sts.endpoint.com:5001/BotAccount/Register?ChannelId=SOMECHANNELID&UserId=SOMEUSERID")]
+        [InlineData(
+            "http://localhost:5000",
+            "SOMECHANNELID",
+            "SOMEUSERID",
+            "http://localhost:5000/BotAccount/Register?ChannelId=SOMECHANNELID&UserId=SOMEUSERID")]
         public void PositiveCase(
             string stsEndpointUrl,
             string channelId,

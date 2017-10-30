@@ -28,7 +28,7 @@ namespace Bot.Module
             IComponentContext context)
         {
             string stsEndpoint =
-                ConfigurationManager.AppSettings["ApiEndpoint"];
+                ConfigurationManager.AppSettings["StsEndpoint"];
             if (string.IsNullOrEmpty(stsEndpoint))
             {
                 throw new InvalidOperationException(

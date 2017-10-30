@@ -18,7 +18,7 @@ namespace Bot.Controllers
 
         public SecurityTokenServiceSettings StsSettings { get; set; }
 
-        public override void OnActionExecuting(HttpActionContext actionContext)
+        public override async void OnActionExecuting(HttpActionContext actionContext)
         {
             object argument = actionContext.ActionArguments["activity"];
             if (actionContext.Request.Method == HttpMethod.Post
@@ -38,11 +38,15 @@ namespace Bot.Controllers
                 bool isRegistered = IsUserRegistered(message);
                 if (!isRegistered)
                 {
-                    Conversation.SendAsync(
+                    await Conversation.SendAsync(
+                            message,
+                            () => new RegistrationDialog(StsSettings.EndpointAddress));
+                }
+                else
+                {
+                    await Conversation.SendAsync(
                         message,
-                        () => new RegistrationDialog(StsSettings))
-                            .GetAwaiter()
-                            .GetResult();
+                        () => new RootDialog());
                 }
             }
         }

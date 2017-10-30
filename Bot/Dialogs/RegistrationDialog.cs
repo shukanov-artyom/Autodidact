@@ -11,16 +11,16 @@ namespace Bot.Dialogs
     [Serializable]
     public class RegistrationDialog : IDialog<object>
     {
-        private readonly SecurityTokenServiceSettings stsSettings;
+        private readonly string stsEndpoint;
 
-        public RegistrationDialog(SecurityTokenServiceSettings stsSettings)
+        public RegistrationDialog(string stsEndpoint)
         {
-            this.stsSettings = stsSettings;
+            this.stsEndpoint = stsEndpoint;
         }
 
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Looks like you are not registered. Let's do it.");
+            await context.PostAsync("Looks like you are not registered. Let's do it now.");
             context.Wait(MessageReceivedAsync);
         }
 
@@ -36,7 +36,7 @@ namespace Bot.Dialogs
         private string GetRegistrationLink(IMessageActivity message)
         {
             ChannelUserInfo user = new ChannelUserInfo(message);
-            string securityTokenServiceUrl = stsSettings.EndpointAddress;
+            string securityTokenServiceUrl = stsEndpoint;
             return new RegistrationLinkFactory(securityTokenServiceUrl)
                 .GenerateLink(user);
         }
