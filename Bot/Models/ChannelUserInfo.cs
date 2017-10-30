@@ -11,6 +11,14 @@ namespace Bot.Models
             UserId = message.From.Id;
         }
 
+        public ChannelUserInfo(
+            string channelId,
+            string userId)
+        {
+            ChannelId = channelId;
+            UserId = userId;
+        }
+
         public string ChannelId { get; }
 
         public string UserId { get; }

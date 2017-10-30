@@ -4,10 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bot.Dialogs;
-using Bot.Models;
 using Bot.Services;
 using Bot.Utils;
-using Domain;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 

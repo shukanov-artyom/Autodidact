@@ -1,6 +1,8 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using Autofac;
 using Bot.Api.Gateway;
+using Bot.Settings;
 
 namespace Bot.Module
 {
@@ -8,7 +10,8 @@ namespace Bot.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register<ApiSettings>(CreateApiSettings);
+            builder.Register(CreateApiSettings);
+            builder.Register(CreateStsSettings);
         }
 
         private ApiSettings CreateApiSettings(IComponentContext context)
@@ -19,6 +22,19 @@ namespace Bot.Module
             {
                 ApiEndpointAddress = apiEndpoint
             };
+        }
+
+        private SecurityTokenServiceSettings CreateStsSettings(
+            IComponentContext context)
+        {
+            string stsEndpoint =
+                ConfigurationManager.AppSettings["ApiEndpoint"];
+            if (string.IsNullOrEmpty(stsEndpoint))
+            {
+                throw new InvalidOperationException(
+                    "No Security Token Service address configured.");
+            }
+            return new SecurityTokenServiceSettings(stsEndpoint);
         }
     }
 }

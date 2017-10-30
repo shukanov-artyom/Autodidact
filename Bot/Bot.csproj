@@ -135,6 +135,8 @@
     <Compile Include="Module\SettingsModule.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Settings\SecurityTokenServiceSettings.cs" />
+    <Compile Include="Utils\RegistrationLinkFactory.cs" />
     <Compile Include="Utils\SystemMessageHandler.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\SubmitLinkDialog.cs" />
