@@ -75,6 +75,30 @@ namespace Bot.Api.Gateway
             }
         }
 
+        protected async Task<TResultId> PostAsync<TResultId>(
+            string url,
+            string payload)
+            where TResultId : struct
+        {
+            using (HttpClient client = GetClient())
+            {
+                HttpContent httpContent = new StringContent(
+                    payload,
+                    Encoding.UTF8,
+                    JsonContentType);
+                try
+                {
+                    HttpResponseMessage response =
+                        await client.PostAsync(url, httpContent);
+                    return ParseResponseValue<TResultId>(response);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
         protected TResultId Post<TResultId>(string url, object payload)
             where TResultId : struct
         {

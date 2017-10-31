@@ -31,6 +31,16 @@ namespace Bot.Dialogs
             IMessageActivity message = await result;
             await context.PostAsync(
                 $"Please use this link to register: {GetRegistrationLink(message)}");
+            await context.PostAsync(
+                "When you will get a confirmation code, please give it to me to finish registration.");
+            context.Wait(WaitForConfirmationCode);
+        }
+
+        private Task WaitForConfirmationCode(
+            IDialogContext context,
+            IAwaitable<IMessageActivity> result)
+        {
+            throw new NotImplementedException();
         }
 
         private string GetRegistrationLink(IMessageActivity message)

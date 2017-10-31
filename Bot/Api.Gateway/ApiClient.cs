@@ -13,15 +13,7 @@ namespace Bot.Api.Gateway
 
         public bool IsUserRegistered(UserBotChannel user)
         {
-            try
-            {
-                return Post<bool>("api/User/IsRegistered", user);
-            }
-            catch (Exception e)
-            {
-                string r = e.ToString();
-                throw;
-            }
+            return Post<bool>("api/User/IsRegistered", user);
         }
 
         public void SetConfirmationCodeForUser(long userId, string confirmationCode)
