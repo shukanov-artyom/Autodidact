@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SecurityTokenService.Extensions;
 using SecurityTokenService.Models;
+using SecurityTokenService.Models.AccountViewModels;
 using SecurityTokenService.Quickstart.Account;
 
 namespace SecurityTokenService.Controllers

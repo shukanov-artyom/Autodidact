@@ -2,8 +2,10 @@
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Api.Interfaces;
 using Bot.Dialogs;
 using Bot.Models;
+using Bot.Services;
 using Bot.Settings;
 using Domain;
 using Microsoft.Bot.Builder.Dialogs;
@@ -14,7 +16,7 @@ namespace Bot.Controllers
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class UserRegisteredAttribute : ActionFilterAttribute
     {
-        public Services.IUserService UserService { get; set; }
+        public IUserService UserService { get; set; }
 
         public SecurityTokenServiceSettings StsSettings { get; set; }
 
@@ -35,8 +37,8 @@ namespace Bot.Controllers
                     return; // assume we can do nothing
                 }
                 var message = activity as IMessageActivity;
-                bool isRegistered = IsUserRegistered(message);
-                if (!isRegistered)
+                UserRegistrationStatus isRegistered = IsUserRegistered(message);
+                if (isRegistered == UserRegistrationStatus.NotRegistered)
                 {
                     await Conversation.SendAsync(
                             message,
@@ -51,7 +53,7 @@ namespace Bot.Controllers
             }
         }
 
-        private bool IsUserRegistered(
+        private UserRegistrationStatus IsUserRegistered(
             IMessageActivity activity)
         {
             ChannelUserInfo userInfo = new ChannelUserInfo(activity);

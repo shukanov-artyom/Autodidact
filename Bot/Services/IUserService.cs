@@ -1,10 +1,11 @@
 ﻿using System;
+using Api.Interfaces;
 using Domain;
 
 namespace Bot.Services
 {
     public interface IUserService
     {
-        bool IsUserRegistered(UserBotChannel user);
+        UserRegistrationStatus IsUserRegistered(UserBotChannel user);
     }
 }

@@ -18,5 +18,10 @@ namespace Api.DataModel
         /// Confirmation code itself.
         /// </summary>
         public string ConfirmationCode { get; set; }
+
+        /// <summary>
+        /// Channel USer navigation property.
+        /// </summary>
+        public ChannelUserEntity ChannelUser { get; set; }
     }
 }

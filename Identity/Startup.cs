@@ -1,4 +1,5 @@
-﻿using IdentityServerWithAspNetIdentity.Services;
+﻿using Bot.Api.Gateway;
+using IdentityServerWithAspNetIdentity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,13 @@ namespace SecurityTokenService
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ApiSettings>(
+                sp => new ApiSettings
+                {
+                    ApiEndpointAddress =
+                        Configuration.GetSection("BotApi")
+                        .GetValue<string>("EndpointAddress")
+                });
 
             services.AddMvc();
 

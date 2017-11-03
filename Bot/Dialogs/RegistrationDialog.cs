@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bot.Models;
-using Bot.Settings;
 using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -36,11 +35,13 @@ namespace Bot.Dialogs
             context.Wait(WaitForConfirmationCode);
         }
 
-        private Task WaitForConfirmationCode(
+        private async Task WaitForConfirmationCode(
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
-            throw new NotImplementedException();
+            var msg = await result;
+            string m = msg.ToString();
+            context.Wait(WaitForConfirmationCode);
         }
 
         private string GetRegistrationLink(IMessageActivity message)

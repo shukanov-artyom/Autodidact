@@ -49,6 +49,7 @@ namespace Api
             services.AddDbContext<ApiDatabaseContext>(
                 options => options.UseSqlServer(connectionString));
             builder.RegisterModule<PersistencyModule>();
+            builder.RegisterModule<ServicesModule>();
             builder.Populate(services);
 
             ApplicationContainer = builder.Build();

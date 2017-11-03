@@ -1,24 +1,26 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IdentityServerWithAspNetIdentity.Models.AccountViewModels;
+using Bot.Api.Gateway;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SecurityTokenService.Models;
+using SecurityTokenService.Models.AccountViewModels;
 
 namespace SecurityTokenService.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class BotAccountController : Controller
+    public class BotAccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ApiSettings apiSettings;
 
         public BotAccountController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApiSettings apiSettings)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -26,30 +28,38 @@ namespace SecurityTokenService.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register(
+            string botChannelType,
+            string botChannelUserId)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["BotChannelType"] = botChannelType;
+            ViewData["BotChannelUserId"] = botChannelUserId;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(BotRegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
                 var result = await userManager.CreateAsync(user, model.Password);
-
-                // TODO : Reach out to Bot Api and create a confirmation code
-
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(ConfirmationCode), "BotAccount");
+                    return RedirectToAction(nameof(ConfirmationCode), "BotAccount", new { confirmationCode });
                 }
+                string confirmationCode = GetConfirmationCode(
+                    UserId,
+                    model.BotChannelType,
+                    model.BotChannelUserId);
                 AddErrors(result);
             }
 
@@ -58,13 +68,9 @@ namespace SecurityTokenService.Controllers
         }
 
         [HttpGet]
-        public IActionResult ConfirmationCode()
+        public IActionResult ConfirmationCode(string confirmationCode)
         {
-            var user = User;
-            var sub = user.Claims.First(c => c.Type == "sub");
-            int userId = Int32.Parse(sub.Value);
-            // TODO : reach out to Bot Api to get confirmation code, then display it here
-            return View();
+            return View("ConfirmationCode", confirmationCode);
         }
 
         private void AddErrors(IdentityResult result)
@@ -72,6 +78,20 @@ namespace SecurityTokenService.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private string GetConfirmationCode(
+            long userId,
+            string channelType,
+            string channelUserId)
+        {
+            using (var client = new ApiClient(apiSettings))
+            {
+                return client.GetConfirmationCode(
+                    userId,
+                    channelType,
+                    channelUserId);
             }
         }
     }

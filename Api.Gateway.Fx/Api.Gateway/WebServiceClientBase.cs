@@ -122,6 +122,28 @@ namespace Bot.Api.Gateway
             }
         }
 
+        protected string PostGetString(string url, object payload)
+        {
+            using (HttpClient client = GetClient())
+            {
+                string payloadString = JsonConvert.SerializeObject(payload);
+                HttpContent httpContent = new StringContent(
+                    payloadString,
+                    Encoding.UTF8,
+                    JsonContentType);
+                var awaitable = client.PostAsync(url, httpContent);
+                try
+                {
+                    awaitable.Wait();
+                    return ParseResponseValue<string>(awaitable.Result);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
         protected void Post(string url, string payload)
         {
             using (HttpClient client = GetClient())

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{231F6675-4B43-492E-8DB8-5863C5391070}</ProjectGuid>
+    <ProjectGuid>{C19644C1-E2DA-4B1F-9E60-C49CD7155658}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bot.Services</RootNamespace>
-    <AssemblyName>Bot.Services</AssemblyName>
+    <RootNamespace>Api.Gateway.Fx</RootNamespace>
+    <AssemblyName>Api.Gateway.Fx</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,19 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUserService.cs" />
+    <Compile Include="Api.Gateway\ApiClient.cs" />
+    <Compile Include="Api.Gateway\ApiSettings.cs" />
+    <Compile Include="Api.Gateway\HttpClientFactory.cs" />
+    <Compile Include="Api.Gateway\WebServiceClientBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Api.Interfaces\Api.Interfaces.csproj">
-      <Project>{399dc878-a29c-4150-a96e-4b8c211fee73}</Project>
+      <Project>{399DC878-A29C-4150-A96E-4B8C211FEE73}</Project>
       <Name>Api.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
-      <Project>{65fe4329-a8eb-47f6-9620-5b0419a4a3a9}</Project>
+      <Project>{65FE4329-A8EB-47F6-9620-5B0419A4A3A9}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

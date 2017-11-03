@@ -23,7 +23,7 @@ namespace Bot.Utils
             builder.Host = baseEndpointUri.Host;
             builder.Port = baseEndpointUri.Port;
             builder.Path = "BotAccount/Register";
-            builder.Query = $"ChannelId={channelId}&UserId={userId}";
+            builder.Query = $"BotChannelType={channelId}&BotChannelUserId={userId}";
             return builder.ToString();
         }
     }

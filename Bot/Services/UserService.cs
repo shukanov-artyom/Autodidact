@@ -1,4 +1,5 @@
 ﻿using System;
+using Api.Interfaces;
 using Bot.Api.Gateway;
 using Domain;
 
@@ -13,7 +14,7 @@ namespace Bot.Services
             this.apiSettings = apiSettings;
         }
 
-        public bool IsUserRegistered(UserBotChannel user)
+        public UserRegistrationStatus IsUserRegistered(UserBotChannel user)
         {
             using (var client = new ApiClient(apiSettings))
             {

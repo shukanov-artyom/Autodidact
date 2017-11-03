@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Bot.Api.Gateway
@@ -35,6 +36,23 @@ namespace Bot.Api.Gateway
             }
         }
 
+        protected async Task<TResult> QueryParseAsync<TResult>(string apiAddress)
+            where TResult : class
+        {
+            using (HttpClient client = GetClient())
+            {
+                try
+                {
+                    var result = await client.GetAsync(apiAddress);
+                    return ParseResponse<TResult>(result);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
         protected TResultId Post<TResultId>(string url, string payload)
             where TResultId : struct
         {
@@ -49,6 +67,30 @@ namespace Bot.Api.Gateway
                 {
                     awaitable.Wait();
                     return ParseResponseValue<TResultId>(awaitable.Result);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
+        protected async Task<TResultId> PostAsync<TResultId>(
+            string url,
+            string payload)
+            where TResultId : struct
+        {
+            using (HttpClient client = GetClient())
+            {
+                HttpContent httpContent = new StringContent(
+                    payload,
+                    Encoding.UTF8,
+                    JsonContentType);
+                try
+                {
+                    HttpResponseMessage response =
+                        await client.PostAsync(url, httpContent);
+                    return ParseResponseValue<TResultId>(response);
                 }
                 catch (AggregateException ag)
                 {
@@ -72,6 +114,28 @@ namespace Bot.Api.Gateway
                 {
                     awaitable.Wait();
                     return ParseResponseValue<TResultId>(awaitable.Result);
+                }
+                catch (AggregateException ag)
+                {
+                    throw ag.InnerException;
+                }
+            }
+        }
+
+        protected string PostGetString(string url, object payload)
+        {
+            using (HttpClient client = GetClient())
+            {
+                string payloadString = JsonConvert.SerializeObject(payload);
+                HttpContent httpContent = new StringContent(
+                    payloadString,
+                    Encoding.UTF8,
+                    JsonContentType);
+                var awaitable = client.PostAsync(url, httpContent);
+                try
+                {
+                    awaitable.Wait();
+                    return ParseResponseValue<string>(awaitable.Result);
                 }
                 catch (AggregateException ag)
                 {

@@ -12,5 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Runtime.Serialization.Formatters">
+      <HintPath>C:\Users\Artyom_Shukanov\.nuget\packages\system.runtime.serialization.formatters\4.3.0\ref\netstandard1.3\System.Runtime.Serialization.Formatters.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
