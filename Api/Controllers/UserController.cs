@@ -24,35 +24,30 @@ namespace Api.Controllers
 
         [Route("api/User/IsRegistered")]
         [HttpPost]
-        [ResponseCache(Duration = 120)]
+        //[ResponseCache(Duration = 120)] -- cannot use while registering user
         public async Task<UserRegistrationStatus> IsRegistered(
             [FromBody]UserBotChannel channel)
         {
-            UserRegistrationStatus result;
-            // if there is a channel user already, then registered
-            if (database.ChannelUsers.Any(cu =>
-                cu.ChannelType == channel.ChannelType &&
-                cu.ChannelUserId == channel.ChannelUserId))
+            bool isChannelUserPresent =
+                database.ChannelUsers.Any(cu =>
+                    cu.ChannelType == channel.ChannelType &&
+                    cu.ChannelUserId == channel.ChannelUserId);
+            bool isUserConfirmationCodeSet =
+                database.ConfirmationCodes.Any(
+                    cc => cc.ChannelUser.ChannelUserId == channel.ChannelUserId
+                          && cc.ChannelUser.ChannelType == channel.ChannelType);
+            // if there is a channel user already without code, then registered
+            if (isChannelUserPresent && !isUserConfirmationCodeSet)
             {
                 return UserRegistrationStatus.Registered;
             }
-            // If no records in ChannelUSer, but there is a confirmation code
-            if (!database.ChannelUsers.Any(cu =>
-                    cu.ChannelType == channel.ChannelType &&
-                    cu.ChannelUserId == channel.ChannelUserId) &&
-                database.ConfirmationCodes.Any(
-                    cc => cc.ChannelUser.ChannelUserId == channel.ChannelUserId
-                    && cc.ChannelUser.ChannelType == channel.ChannelType))
+            // If there is a ChannelUser, but there is also a confirmation code pending
+            if (isChannelUserPresent && isUserConfirmationCodeSet)
             {
                 return UserRegistrationStatus.AwaitingConfirmationCode;
             }
             // if no user and no confirmation code
-            if (!database.ChannelUsers.Any(cu =>
-                    cu.ChannelType == channel.ChannelType &&
-                    cu.ChannelUserId == channel.ChannelUserId) &&
-                !database.ConfirmationCodes.Any(
-                    cc => cc.ChannelUser.ChannelUserId == channel.ChannelUserId
-                          && cc.ChannelUser.ChannelType == channel.ChannelType))
+            if (!isChannelUserPresent && !isUserConfirmationCodeSet)
             {
                 return UserRegistrationStatus.NotRegistered;
             }
@@ -66,8 +61,8 @@ namespace Api.Controllers
         {
             return confirmationCodeService.GetConfirmationCode(
                 info.UserId,
-                info.ChannelUserId,
-                info.ChannelId);
+                info.ChannelId,
+                info.ChannelUserId);
         }
     }
 }

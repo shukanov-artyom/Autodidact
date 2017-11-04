@@ -1,7 +1,7 @@
 ﻿using System;
+using Api.DataModel;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Api.DataModel;
 
 namespace Api.Modules
 {
@@ -12,7 +12,7 @@ namespace Api.Modules
             builder
                 .RegisterType<ApiDatabaseContext>()
                 .As<DbContext>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
             base.Load(builder);
         }
     }

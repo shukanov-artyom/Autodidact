@@ -37,12 +37,20 @@ namespace Bot.Controllers
                     return; // assume we can do nothing
                 }
                 var message = activity as IMessageActivity;
-                UserRegistrationStatus isRegistered = IsUserRegistered(message);
-                if (isRegistered == UserRegistrationStatus.NotRegistered)
+                UserRegistrationStatus registrationStatus = IsUserRegistered(message);
+                if (registrationStatus ==
+                    UserRegistrationStatus.NotRegistered)
                 {
                     await Conversation.SendAsync(
                             message,
                             () => new RegistrationDialog(StsSettings.EndpointAddress));
+                }
+                else if (registrationStatus ==
+                         UserRegistrationStatus.AwaitingConfirmationCode)
+                {
+                    await Conversation.SendAsync(
+                        message,
+                        () => new AcceptConfirmationCodeDialog(StsSettings.EndpointAddress));
                 }
                 else
                 {

@@ -24,6 +24,7 @@ namespace SecurityTokenService.Controllers
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.apiSettings = apiSettings;
         }
 
         [HttpGet]
@@ -54,12 +55,15 @@ namespace SecurityTokenService.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(ConfirmationCode), "BotAccount", new { confirmationCode });
-                }
-                string confirmationCode = GetConfirmationCode(
-                    UserId,
+                    string confirmationCode = GetConfirmationCode(
+                    user.Id,
                     model.BotChannelType,
                     model.BotChannelUserId);
+                    return RedirectToAction(
+                        nameof(ConfirmationCode),
+                        "BotAccount",
+                        new { confirmationCode });
+                }
                 AddErrors(result);
             }
 
