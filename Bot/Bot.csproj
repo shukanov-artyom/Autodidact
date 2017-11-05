@@ -125,13 +125,14 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\UserRegisteredAttribute.cs" />
+    <Compile Include="Dialogs\AcceptConfirmationCodeDialog.cs" />
     <Compile Include="Dialogs\RegistrationDialog.cs" />
     <Compile Include="Module\ServicesModule.cs" />
     <Compile Include="Module\SettingsModule.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Settings\SecurityTokenServiceSettings.cs" />
+    <Compile Include="Utils\ConfirmationCodeParser.cs" />
     <Compile Include="Utils\RegistrationLinkFactory.cs" />
     <Compile Include="Utils\SystemMessageHandler.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />

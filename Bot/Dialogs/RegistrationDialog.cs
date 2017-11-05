@@ -7,6 +7,9 @@ using Microsoft.Bot.Connector;
 
 namespace Bot.Dialogs
 {
+    /// <summary>
+    /// This dialog goes through registration and accepts confirmation code from a user.
+    /// </summary>
     [Serializable]
     public class RegistrationDialog : IDialog<object>
     {
@@ -19,7 +22,6 @@ namespace Bot.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Looks like you are not registered. Let's do it now.");
             context.Wait(MessageReceivedAsync);
         }
 
@@ -28,20 +30,12 @@ namespace Bot.Dialogs
             IAwaitable<IMessageActivity> result)
         {
             IMessageActivity message = await result;
+            await context.PostAsync("Looks like you are not registered. Let's do it now.");
             await context.PostAsync(
                 $"Please use this link to register: {GetRegistrationLink(message)}");
             await context.PostAsync(
                 "When you will get a confirmation code, please give it to me to finish registration.");
-            context.Wait(WaitForConfirmationCode);
-        }
-
-        private async Task WaitForConfirmationCode(
-            IDialogContext context,
-            IAwaitable<IMessageActivity> result)
-        {
-            var msg = await result;
-            string m = msg.ToString();
-            context.Wait(WaitForConfirmationCode);
+            context.Done(this);
         }
 
         private string GetRegistrationLink(IMessageActivity message)
