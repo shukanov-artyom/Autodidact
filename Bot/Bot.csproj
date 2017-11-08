@@ -125,8 +125,14 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Cqrs\Command\ICommand.cs" />
+    <Compile Include="Cqrs\DomainLayer.cs" />
+    <Compile Include="Cqrs\Dto\CheckConfirmationCodeQuery.cs" />
+    <Compile Include="Cqrs\Query\IQuery.cs" />
     <Compile Include="Dialogs\AcceptConfirmationCodeDialog.cs" />
+    <Compile Include="Dialogs\DomainLayerAccessDialog.cs" />
     <Compile Include="Dialogs\RegistrationDialog.cs" />
+    <Compile Include="Module\CqrsModule.cs" />
     <Compile Include="Module\ServicesModule.cs" />
     <Compile Include="Module\SettingsModule.cs" />
     <Compile Include="Services\IUserService.cs" />
@@ -186,6 +192,7 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

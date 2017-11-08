@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Bot.CQRS.Command;
+using Bot.CQRS.Dto;
+using Bot.CQRS;
 
 namespace Bot.Dialogs
 {
@@ -22,7 +25,7 @@ namespace Bot.Dialogs
             ConfirmationCodeParser parser =
                 new ConfirmationCodeParser(message.Text);
             Guid? code = parser.Parse();
-            if (code == null)
+            if (!code.HasValue)
             {
                 await context.PostAsync("This does not look like confirmation code.");
                 await context.PostAsync(
@@ -31,10 +34,30 @@ namespace Bot.Dialogs
             }
             else
             {
-                await context.PostAsync(
+                if (await IsUsersValidConfirmationCodeAsync(code.Value))
+                {
+                    ActivateConfirmationCode();
+                    await context.PostAsync(
                     "Thanks! Now you are registered and we can continue.");
-                context.Done(code.Value);
+                    context.Done(code.Value);
+                }
+                else
+                {
+                    await context.PostAsync("This is not your confirmation code!");
+                    await context.PostAsync("Please check everything and try again.");
+                }
             }
+        }
+
+        private async Task<bool> IsUsersValidConfirmationCodeAsync(Guid code)
+        {
+            return await DomainLayer.QueryAsync(
+                new CheckConfirmationCodeQuery(code));
+        }
+
+        private void ActivateConfirmationCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

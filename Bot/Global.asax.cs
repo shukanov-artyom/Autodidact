@@ -28,6 +28,7 @@ namespace Bot
 
             builder.RegisterModule<ServicesModule>();
             builder.RegisterModule<SettingsModule>();
+            builder.RegisterModule<CqrsModule>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
