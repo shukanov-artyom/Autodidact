@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Bot.CQRS;
+using Bot.CQRS.Dto;
 using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using Bot.CQRS.Command;
-using Bot.CQRS.Dto;
-using Bot.CQRS;
 
 namespace Bot.Dialogs
 {
     [Serializable]
     public class AcceptConfirmationCodeDialog : IDialog<object>
     {
+        private readonly string channelType;
+        private readonly string channelUserId;
+
+        public AcceptConfirmationCodeDialog(
+            string channelType,
+            string channelUserId)
+        {
+            this.channelType = channelType;
+            this.channelUserId = channelUserId;
+        }
+
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -34,7 +44,10 @@ namespace Bot.Dialogs
             }
             else
             {
-                if (await IsUsersValidConfirmationCodeAsync(code.Value))
+                if (await IsUsersValidConfirmationCodeAsync(
+                    channelType,
+                    channelUserId,
+                    code.Value))
                 {
                     ActivateConfirmationCode();
                     await context.PostAsync(
@@ -49,10 +62,13 @@ namespace Bot.Dialogs
             }
         }
 
-        private async Task<bool> IsUsersValidConfirmationCodeAsync(Guid code)
+        private async Task<bool> IsUsersValidConfirmationCodeAsync(
+            string channelType,
+            string channelUserId,
+            Guid code)
         {
             return await DomainLayer.QueryAsync(
-                new CheckConfirmationCodeQuery(code));
+                new CheckConfirmationCodeQuery(channelType, channelUserId, code));
         }
 
         private void ActivateConfirmationCode()

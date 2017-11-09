@@ -33,27 +33,9 @@ namespace Bot.Controllers
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                var message = activity as IMessageActivity;
-                UserRegistrationStatus registrationStatus = IsUserRegistered(message);
-                if (registrationStatus == UserRegistrationStatus.NotRegistered)
-                {
-                    string endpoint = tokenServerSettings.EndpointAddress;
-                    await Conversation.SendAsync(
-                        message,
-                        () => new RegistrationDialog(endpoint));
-                }
-                else if (registrationStatus == UserRegistrationStatus.AwaitingConfirmationCode)
-                {
-                    await Conversation.SendAsync(
-                        message,
-                        () => new AcceptConfirmationCodeDialog());
-                }
-                else
-                {
-                    await Conversation.SendAsync(
+                await Conversation.SendAsync(
                         activity,
                         () => new RootDialog());
-                }
             }
             else
             {
@@ -66,18 +48,6 @@ namespace Bot.Controllers
         private void HandleSystemMessage(Activity message)
         {
             new SystemMessageHandler().Handle(message);
-        }
-
-        private UserRegistrationStatus IsUserRegistered(
-            IMessageActivity activity)
-        {
-            ChannelUserInfo userInfo = new ChannelUserInfo(activity);
-            var botChannel = new UserBotChannel
-            {
-                ChannelType = userInfo.ChannelId,
-                ChannelUserId = userInfo.UserId
-            };
-            return userService.IsUserRegistered(botChannel);
         }
     }
 }

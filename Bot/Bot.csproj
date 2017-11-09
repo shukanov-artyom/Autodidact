@@ -128,6 +128,8 @@
     <Compile Include="Cqrs\Command\ICommand.cs" />
     <Compile Include="Cqrs\DomainLayer.cs" />
     <Compile Include="Cqrs\Dto\CheckConfirmationCodeQuery.cs" />
+    <Compile Include="Cqrs\Dto\CheckUserRegisteredQuery.cs" />
+    <Compile Include="Cqrs\Dto\GetRegistrationLinkQuery.cs" />
     <Compile Include="Cqrs\Query\IQuery.cs" />
     <Compile Include="Dialogs\AcceptConfirmationCodeDialog.cs" />
     <Compile Include="Dialogs\DomainLayerAccessDialog.cs" />
@@ -135,6 +137,8 @@
     <Compile Include="Module\CqrsModule.cs" />
     <Compile Include="Module\ServicesModule.cs" />
     <Compile Include="Module\SettingsModule.cs" />
+    <Compile Include="Services\ConfirmationCodeService.cs" />
+    <Compile Include="Services\IConfirmationCodeService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Settings\SecurityTokenServiceSettings.cs" />

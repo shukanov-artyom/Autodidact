@@ -9,6 +9,7 @@ namespace Bot.Module
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<ConfirmationCodeService>().As<IConfirmationCodeService>();
         }
     }
 }

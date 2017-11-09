@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Bot.CQRS;
+using Bot.Cqrs.Dto;
 using Bot.Models;
 using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,37 +15,29 @@ namespace Bot.Dialogs
     [Serializable]
     public class RegistrationDialog : IDialog<object>
     {
-        private readonly string stsEndpoint;
-
-        public RegistrationDialog(string stsEndpoint)
-        {
-            this.stsEndpoint = stsEndpoint;
-        }
-
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
         }
 
-        protected virtual async Task MessageReceivedAsync(
+        public virtual async Task MessageReceivedAsync(
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
             IMessageActivity message = await result;
             await context.PostAsync("Looks like you are not registered. Let's do it now.");
             await context.PostAsync(
-                $"Please use this link to register: {GetRegistrationLink(message)}");
+                $"Please use this link to register: {await GetRegistrationLinkAsync(message)}");
             await context.PostAsync(
                 "When you will get a confirmation code, please give it to me to finish registration.");
-            context.Done(this);
+            context.Done("I'm done");
         }
 
-        private string GetRegistrationLink(IMessageActivity message)
+        private async Task<string> GetRegistrationLinkAsync(IMessageActivity message)
         {
-            ChannelUserInfo user = new ChannelUserInfo(message);
-            string securityTokenServiceUrl = stsEndpoint;
-            return new RegistrationLinkFactory(securityTokenServiceUrl)
-                .GenerateLink(user);
+            var user = new ChannelUserInfo(message);
+            var query = new GetRegistrationLinkQuery(user);
+            return await DomainLayer.QueryAsync(query);
         }
     }
 }

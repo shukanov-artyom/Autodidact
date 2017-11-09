@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
+using Api.Interfaces;
+using Bot.CQRS;
+using Bot.Cqrs.Dto;
 using Bot.Models;
-using Bot.Utils;
+using Domain;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -21,40 +23,37 @@ namespace Bot.Dialogs
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
-            var msg = await result;
-            if (new LinkDetector(msg.Text).IsLink())
+            var message = await result;
+            var registrationStatus = await IsUserRegisteredAsync(message);
+            if (registrationStatus == UserRegistrationStatus.NotRegistered)
             {
-                await context.Forward(
-                    new SubmitLinkDialog(),
-                    RestartProcessing,
-                    msg,
-                    CancellationToken.None);
+                await Conversation.SendAsync(
+                    message,
+                    () => new RegistrationDialog());
             }
-            else
+            else if (registrationStatus == UserRegistrationStatus.AwaitingConfirmationCode)
             {
-                PromptDialog.Choice(
-                    context,
-                    OnOptionSelected,
-                    new ApplicationOptions(),
-                    "What to start with?");
+                var info = new ChannelUserInfo(message);
+                await Conversation.SendAsync(
+                    message,
+                    () => new AcceptConfirmationCodeDialog(
+                        info.ChannelId,
+                        info.UserId));
             }
-            // TODO : Continue messages processing
         }
 
-        private async Task OnOptionSelected(
-            IDialogContext context,
-            IAwaitable<string> selectionResult)
+        private async Task<UserRegistrationStatus> IsUserRegisteredAsync(
+            IMessageActivity activity)
         {
-            context.Wait(MessageReceivedAsync);
-        }
-
-        private async Task RestartProcessing(
-            IDialogContext context,
-            IAwaitable<int> awaitable)
-        {
-            var message = await awaitable;
-            await context.PostAsync("Thanks!");
-            context.Wait(MessageReceivedAsync);
+            ChannelUserInfo userInfo = new ChannelUserInfo(activity);
+            var botChannel = new UserBotChannel
+            {
+                ChannelType = userInfo.ChannelId,
+                ChannelUserId = userInfo.UserId
+            };
+            var query = new CheckUserRegisteredQuery(botChannel);
+            var status = await DomainLayer.QueryAsync(query);
+            return status;
         }
     }
 }
