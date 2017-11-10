@@ -125,12 +125,13 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Cqrs\Command\ICommand.cs" />
+    <Compile Include="Cqrs\Dto\ActivateConfirmationCodeCommand.cs" />
+    <Compile Include="Cqrs\ICommand.cs" />
     <Compile Include="Cqrs\DomainLayer.cs" />
     <Compile Include="Cqrs\Dto\CheckConfirmationCodeQuery.cs" />
     <Compile Include="Cqrs\Dto\CheckUserRegisteredQuery.cs" />
     <Compile Include="Cqrs\Dto\GetRegistrationLinkQuery.cs" />
-    <Compile Include="Cqrs\Query\IQuery.cs" />
+    <Compile Include="Cqrs\IQuery.cs" />
     <Compile Include="Dialogs\AcceptConfirmationCodeDialog.cs" />
     <Compile Include="Dialogs\DomainLayerAccessDialog.cs" />
     <Compile Include="Dialogs\RegistrationDialog.cs" />

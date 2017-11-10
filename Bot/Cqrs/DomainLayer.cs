@@ -9,7 +9,7 @@ namespace Bot.CQRS
     /// <summary>
     /// Static facade for domain layer to access from bots' dialogs.
     /// </summary>
-    public static class DomainLayer
+    public static class DomainGateway
     {
         private static ILifetimeScope container;
 

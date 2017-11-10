@@ -18,17 +18,6 @@ namespace Bot.Controllers
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private readonly IUserService userService;
-        private readonly SecurityTokenServiceSettings tokenServerSettings;
-
-        public MessagesController(
-            IUserService userService,
-            SecurityTokenServiceSettings tokenServerSettings)
-        {
-            this.userService = userService;
-            this.tokenServerSettings = tokenServerSettings;
-        }
-
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)

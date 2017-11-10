@@ -9,6 +9,9 @@ namespace Bot.Services
             string channelUserId,
             Guid code);
 
-        void ActivateConfirmationCode(Guid code);
+        void ActivateConfirmationCode(
+            string channelType,
+            string channelUserId,
+            Guid code);
     }
 }

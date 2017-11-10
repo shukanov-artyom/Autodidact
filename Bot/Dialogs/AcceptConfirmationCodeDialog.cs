@@ -1,13 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Bot.CQRS;
-using Bot.CQRS.Dto;
-using Bot.Utils;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
-
-namespace Bot.Dialogs
+﻿namespace Bot.Dialogs
 {
+    using System;
+    using System.Threading.Tasks;
+    using Bot.CQRS;
+    using Bot.CQRS.Dto;
+    using Bot.Cqrs.Dto;
+    using Bot.Utils;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+
     [Serializable]
     public class AcceptConfirmationCodeDialog : IDialog<object>
     {
@@ -49,7 +50,10 @@ namespace Bot.Dialogs
                     channelUserId,
                     code.Value))
                 {
-                    ActivateConfirmationCode();
+                    await ActivateConfirmationCodeAsync(
+                        channelType,
+                        channelUserId,
+                        code.Value);
                     await context.PostAsync(
                     "Thanks! Now you are registered and we can continue.");
                     context.Done(code.Value);
@@ -67,13 +71,20 @@ namespace Bot.Dialogs
             string channelUserId,
             Guid code)
         {
-            return await DomainLayer.QueryAsync(
+            return await DomainGateway.QueryAsync(
                 new CheckConfirmationCodeQuery(channelType, channelUserId, code));
         }
 
-        private void ActivateConfirmationCode()
+        private async Task ActivateConfirmationCodeAsync(
+            string channelType,
+            string channelUserId,
+            Guid code)
         {
-            throw new NotImplementedException();
+            var command = new ActivateConfirmationCodeCommand(
+                channelType,
+                channelUserId,
+                code);
+            await DomainGateway.RunAsync(command);
         }
     }
 }

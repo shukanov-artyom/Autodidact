@@ -52,7 +52,7 @@ namespace Bot.Dialogs
                 ChannelUserId = userInfo.UserId
             };
             var query = new CheckUserRegisteredQuery(botChannel);
-            var status = await DomainLayer.QueryAsync(query);
+            var status = await DomainGateway.QueryAsync(query);
             return status;
         }
     }

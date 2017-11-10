@@ -30,6 +30,14 @@ namespace Bot.Api.Gateway
             return PostGetString("api/User/ConfirmationCode", dto);
         }
 
+        public void ActivateConfirmationCode(
+            string channelId, 
+            string channelUserId,
+            Guid code)
+        {
+            Post("api/User/ActivateConfirmationCode&", );
+        }
+
         public void Dispose()
         {
             // nothing here yet

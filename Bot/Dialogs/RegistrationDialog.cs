@@ -37,7 +37,7 @@ namespace Bot.Dialogs
         {
             var user = new ChannelUserInfo(message);
             var query = new GetRegistrationLinkQuery(user);
-            return await DomainLayer.QueryAsync(query);
+            return await DomainGateway.QueryAsync(query);
         }
     }
 }
