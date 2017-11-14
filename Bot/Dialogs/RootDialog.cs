@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Api.Interfaces;
 using Bot.CQRS;
@@ -27,9 +28,11 @@ namespace Bot.Dialogs
             var registrationStatus = await IsUserRegisteredAsync(message);
             if (registrationStatus == UserRegistrationStatus.NotRegistered)
             {
-                await Conversation.SendAsync(
+                await context.Forward(
+                    new RegistrationDialog(),
+                    AfterRegistrationDialog,
                     message,
-                    () => new RegistrationDialog());
+                    CancellationToken.None);
             }
             else if (registrationStatus == UserRegistrationStatus.AwaitingConfirmationCode)
             {
@@ -54,6 +57,13 @@ namespace Bot.Dialogs
             var query = new CheckUserRegisteredQuery(botChannel);
             var status = await DomainGateway.QueryAsync(query);
             return status;
+        }
+
+        private async Task AfterRegistrationDialog(
+            IDialogContext context,
+            IAwaitable<object> result)
+        {
+            context.Wait(MessageReceivedAsync);
         }
     }
 }

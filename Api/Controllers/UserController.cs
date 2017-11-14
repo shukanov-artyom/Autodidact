@@ -64,5 +64,16 @@ namespace Api.Controllers
                 info.ChannelId,
                 info.ChannelUserId);
         }
+
+        [Route("api/User/ActivateConfirmationCode")]
+        [HttpPost]
+        public async Task ActivateConfirmationCode(
+            [FromBody]ActivateConfirmationCodeDto dto)
+        {
+            await confirmationCodeService.ActivateConfirmationCodeAsync(
+                dto.ChannelType,
+                dto.ChannelUserId,
+                dto.Code);
+        }
     }
 }

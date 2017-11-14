@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Autofac;
 using Bot.CQRS.Command;
@@ -21,7 +22,7 @@ namespace Bot.CQRS
         public static async Task<TQueryResult> QueryAsync<TQueryResult>(
             IQuery<TQueryResult> query)
         {
-            container.InjectProperties(query);
+            InjectProperties(query);
             return await Task.Run(() => query.Run());
         }
 
@@ -29,8 +30,21 @@ namespace Bot.CQRS
             TCommand command)
             where TCommand : ICommand
         {
-            container.InjectProperties(command);
+            InjectProperties(command);
             await Task.Run(() => command.Execute());
+        }
+
+        private static void InjectProperties(object target)
+        {
+            try
+            {
+                container.InjectProperties(target);
+            }
+            catch (Exception e)
+            {
+                Debug.Write(e.Message);
+                throw;
+            }
         }
     }
 }

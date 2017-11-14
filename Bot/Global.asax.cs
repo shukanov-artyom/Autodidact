@@ -1,8 +1,9 @@
-﻿using Autofac;
-using Autofac.Integration.WebApi;
-using Bot.Module;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web.Http;
+using Autofac;
+using Autofac.Integration.WebApi;
+using Bot.CQRS;
+using Bot.Module;
 
 namespace Bot
 {
@@ -34,6 +35,8 @@ namespace Bot
             var container = builder.Build();
             config.DependencyResolver =
                 new AutofacWebApiDependencyResolver(container);
+            DomainGateway.SetContainer(
+                config.DependencyResolver.GetRootLifetimeScope());
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Api.Interfaces;
+using Bot.Api.Gateway;
 using Domain;
 
-namespace Bot.Api.Gateway
+namespace Api.Gateway.Fx.Api.Gateway
 {
     public class ApiClient : WebServiceClientBase, IAutodidactApi, IDisposable
     {
@@ -35,7 +36,8 @@ namespace Bot.Api.Gateway
             string channelUserId,
             Guid code)
         {
-            Post("api/User/ActivateConfirmationCode&", );
+            var payload = new ActivateConfirmationCodeDto(channelId, channelUserId, code);
+            Post("api/User/ActivateConfirmationCode", payload);
         }
 
         public void Dispose()

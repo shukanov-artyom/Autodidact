@@ -1,4 +1,5 @@
 ﻿using System;
+using Api.Gateway.Fx.Api.Gateway;
 using Bot.Api.Gateway;
 
 namespace Bot.Services
