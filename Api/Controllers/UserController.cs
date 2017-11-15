@@ -68,12 +68,23 @@ namespace Api.Controllers
         [Route("api/User/ActivateConfirmationCode")]
         [HttpPost]
         public async Task ActivateConfirmationCode(
-            [FromBody]ActivateConfirmationCodeDto dto)
+            [FromBody]ConfirmationCodeInfoDto infoDto)
         {
             await confirmationCodeService.ActivateConfirmationCodeAsync(
-                dto.ChannelType,
-                dto.ChannelUserId,
-                dto.Code);
+                infoDto.ChannelType,
+                infoDto.ChannelUserId,
+                infoDto.Code);
+        }
+
+        [Route("api/User/IsValidUsersConfirmationCode")]
+        [HttpPost]
+        public bool IsValidUsersConfirmationCode(
+            [FromBody]ConfirmationCodeInfoDto infoDto)
+        {
+            return confirmationCodeService.IsValidUsersConfirmationCode(
+                infoDto.ChannelType,
+                infoDto.ChannelUserId,
+                infoDto.Code);
         }
     }
 }

@@ -30,18 +30,20 @@ namespace Bot.Dialogs
             {
                 await context.Forward(
                     new RegistrationDialog(),
-                    AfterRegistrationDialog,
+                    Continuation,
                     message,
                     CancellationToken.None);
             }
             else if (registrationStatus == UserRegistrationStatus.AwaitingConfirmationCode)
             {
                 var info = new ChannelUserInfo(message);
-                await Conversation.SendAsync(
-                    message,
-                    () => new AcceptConfirmationCodeDialog(
+                await context.Forward(
+                    new AcceptConfirmationCodeDialog(
                         info.ChannelId,
-                        info.UserId));
+                        info.UserId),
+                    Continuation,
+                    message,
+                    CancellationToken.None);
             }
         }
 
@@ -59,7 +61,7 @@ namespace Bot.Dialogs
             return status;
         }
 
-        private async Task AfterRegistrationDialog(
+        private async Task Continuation(
             IDialogContext context,
             IAwaitable<object> result)
         {

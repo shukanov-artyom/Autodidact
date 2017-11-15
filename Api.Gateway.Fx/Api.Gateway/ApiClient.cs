@@ -36,8 +36,17 @@ namespace Api.Gateway.Fx.Api.Gateway
             string channelUserId,
             Guid code)
         {
-            var payload = new ActivateConfirmationCodeDto(channelId, channelUserId, code);
+            var payload = new ConfirmationCodeInfoDto(channelId, channelUserId, code);
             Post("api/User/ActivateConfirmationCode", payload);
+        }
+
+        public bool IsValidUsersConfirmationCode(
+            string channelId,
+            string channelUserId,
+            Guid code)
+        {
+            var payload = new ConfirmationCodeInfoDto(channelId, channelUserId, code);
+            return Post<bool>("api/User/IsValidUsersConfirmationCode", payload);
         }
 
         public void Dispose()

@@ -3,9 +3,9 @@
 namespace Api.Interfaces
 {
     [Serializable]
-    public class ActivateConfirmationCodeDto
+    public class ConfirmationCodeInfoDto
     {
-        public ActivateConfirmationCodeDto(
+        public ConfirmationCodeInfoDto(
             string channelType,
             string channelUserId,
             Guid code)

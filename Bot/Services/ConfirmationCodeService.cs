@@ -20,7 +20,10 @@ namespace Bot.Services
         {
             using (var client = new ApiClient(apiSettings))
             {
-                client.ActivateConfirmationCode(channelType, channelUserId, code);
+                client.ActivateConfirmationCode(
+                    channelType,
+                    channelUserId,
+                    code);
             }
         }
 
@@ -29,7 +32,13 @@ namespace Bot.Services
             string channelUserId,
             Guid code)
         {
-            throw new NotImplementedException();
+            using (var client = new ApiClient(apiSettings))
+            {
+                return client.IsValidUsersConfirmationCode(
+                    channelType,
+                    channelUserId,
+                    code);
+            }
         }
     }
 }

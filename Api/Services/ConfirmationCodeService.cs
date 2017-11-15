@@ -67,12 +67,20 @@ namespace Api.Services
             databaseContext.SaveChanges();
         }
 
+        public bool IsValidUsersConfirmationCode(
+            string channelType,
+            string channeluserId,
+            Guid code)
+        {
+            return databaseContext.ConfirmationCodes.Any(
+                cc => cc.ChannelUser.ChannelUserId == channeluserId
+                    && cc.ChannelUser.ChannelType == channelType
+                    && cc.ConfirmationCode == code.ToString());
+        }
+
         public void Dispose()
         {
-            if (databaseContext != null)
-            {
-                databaseContext.Dispose();
-            }
+            databaseContext?.Dispose();
         }
     }
 }
