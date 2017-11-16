@@ -1,8 +1,9 @@
 ﻿using System;
 using Api.Interfaces;
+using Bot.Api.Gateway;
 using Domain;
 
-namespace Bot.Api.Gateway
+namespace Api.Gateway.Core.Api.Gateway
 {
     public class ApiClient : WebServiceClientBase, IAutodidactApi, IDisposable
     {

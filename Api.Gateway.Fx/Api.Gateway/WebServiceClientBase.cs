@@ -3,9 +3,10 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Bot.Api.Gateway;
 using Newtonsoft.Json;
 
-namespace Bot.Api.Gateway
+namespace Api.Gateway.Fx.Api.Gateway
 {
     public abstract class WebServiceClientBase
     {

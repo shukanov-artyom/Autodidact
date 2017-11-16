@@ -45,6 +45,20 @@ namespace Bot.Dialogs
                     message,
                     CancellationToken.None);
             }
+            else if (registrationStatus == UserRegistrationStatus.Registered)
+            {
+                var info = new ChannelUserInfo(message);
+                await context.Forward(
+                    new SubmitDocumentLinkDialog(info),
+                    Continuation,
+                    message,
+                    CancellationToken.None);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    "Unrecognized user registration state.");
+            }
         }
 
         private async Task<UserRegistrationStatus> IsUserRegisteredAsync(

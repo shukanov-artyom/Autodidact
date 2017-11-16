@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Api.Gateway.Core.Api.Gateway;
 using Bot.Api.Gateway;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
