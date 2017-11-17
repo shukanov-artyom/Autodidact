@@ -135,6 +135,7 @@
     <Compile Include="Dialogs\AcceptConfirmationCodeDialog.cs" />
     <Compile Include="Dialogs\DomainLayerAccessDialog.cs" />
     <Compile Include="Dialogs\RegistrationDialog.cs" />
+    <Compile Include="Dialogs\SubmitDocumentLinkDialog.cs" />
     <Compile Include="Module\CqrsModule.cs" />
     <Compile Include="Module\ServicesModule.cs" />
     <Compile Include="Module\SettingsModule.cs" />

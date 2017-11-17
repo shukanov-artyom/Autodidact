@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bot.Models;
+using Bot.Utils;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -24,7 +25,15 @@ namespace Bot.Dialogs
             IDialogContext context,
             IAwaitable<IMessageActivity> result)
         {
-            throw new NotImplementedException();
+            IMessageActivity message = await result;
+            string maybeLink = message.Text;
+            LinkDetector linkDetector = new LinkDetector(maybeLink);
+            if (linkDetector.IsLink())
+            {
+                // this is link!
+                // let's determine what's up with this
+                // Like "Did you read it already or planning to do?"
+            }
         }
     }
 }
