@@ -145,7 +145,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Settings\SecurityTokenServiceSettings.cs" />
     <Compile Include="Utils\ConfirmationCodeParser.cs" />
-    <Compile Include="Utils\LinkExtractor.cs" />
+    <Compile Include="Utils\LinksExtractor.cs" />
     <Compile Include="Utils\RegistrationLinkFactory.cs" />
     <Compile Include="Utils\SystemMessageHandler.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
