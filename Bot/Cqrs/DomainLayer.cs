@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Autofac;
-using Bot.CQRS.Command;
-using Bot.CQRS.Query;
+using Bot.Cqrs;
 
 namespace Bot.CQRS
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bot.CQRS.Query
+﻿namespace Bot.Cqrs
 {
     public interface IQuery<out TQueryResult>
     {

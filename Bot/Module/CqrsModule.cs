@@ -1,8 +1,7 @@
 ﻿using System;
 using Autofac;
+using Bot.Cqrs;
 using Bot.CQRS.Dto;
-using Bot.CQRS.Query;
-using Bot.CQRS.Command;
 
 namespace Bot.Module
 {

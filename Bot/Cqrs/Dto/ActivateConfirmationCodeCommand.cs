@@ -1,5 +1,4 @@
 ﻿using System;
-using Bot.CQRS.Command;
 using Bot.Services;
 
 namespace Bot.Cqrs.Dto

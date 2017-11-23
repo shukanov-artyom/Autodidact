@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bot.CQRS.Command
+﻿namespace Bot.Cqrs
 {
     public interface ICommand
     {

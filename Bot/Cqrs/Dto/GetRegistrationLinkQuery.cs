@@ -1,5 +1,4 @@
 ﻿using System;
-using Bot.CQRS.Query;
 using Bot.Models;
 using Bot.Settings;
 using Bot.Utils;
