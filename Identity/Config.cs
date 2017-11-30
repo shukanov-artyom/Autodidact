@@ -21,7 +21,7 @@ namespace SecurityTokenService
         {
             return new List<ApiResource>
             {
-                new ApiResource(SecurityConstants.ApiName, "My API")
+                new ApiResource(SecurityClientConstants.ApiResourceId, "My API")
             };
         }
 
@@ -40,7 +40,10 @@ namespace SecurityTokenService
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { SecurityConstants.ApiName }
+                    AllowedScopes =
+                    {
+                        SecurityClientConstants.ApiResourceId
+                    }
                 },
 
                 // resource owner password grant client
@@ -53,13 +56,13 @@ namespace SecurityTokenService
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { SecurityConstants.ApiName }
+                    AllowedScopes = { SecurityClientConstants.ApiResourceId }
                 },
 
                 // OpenID Connect hybrid flow and client credentials client (MVC)
                 new Client
                 {
-                    ClientId = SecurityConstants.MvcName,
+                    ClientId = SecurityClientConstants.MvcClientId,
                     ClientName = "MVC Client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
@@ -77,7 +80,7 @@ namespace SecurityTokenService
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        SecurityConstants.ApiName
+                        SecurityClientConstants.ApiResourceId
                     },
                     AllowOfflineAccess = true
                 }

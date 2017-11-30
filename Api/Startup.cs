@@ -40,7 +40,7 @@ namespace Api
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
 
-                    options.ApiName = SecurityConstants.ApiName;
+                    options.ApiName = SecurityClientConstants.ApiResourceId;
                 });
 
             var builder = new ContainerBuilder();

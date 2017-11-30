@@ -38,9 +38,9 @@ namespace Web.Controllers
         public async Task<IActionResult> CallApiUsingClientCredentials()
         {
             var tokenClient = new TokenClient("http://localhost:5000/connect/token",
-                SecurityConstants.MvcName, "secret");
+                SecurityClientConstants.MvcClientId, "secret");
             var tokenResponse = await tokenClient
-                .RequestClientCredentialsAsync(SecurityConstants.ApiName);
+                .RequestClientCredentialsAsync(SecurityClientConstants.ApiResourceId);
 
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);

@@ -1,4 +1,5 @@
 ﻿using Bot.Api.Gateway;
+using IdentityServer4.Validation;
 using IdentityServerWithAspNetIdentity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,8 @@ namespace SecurityTokenService
 
             services.AddMvc();
 
+            // IUserClaimsPrincipalFactory;
+            // IResourceOwnerPasswordValidator;
             // configure identity server with in-memory stores, keys, clients and scopes
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()

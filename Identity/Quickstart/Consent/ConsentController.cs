@@ -13,7 +13,7 @@ namespace SecurityTokenService.Quickstart.Consent
     [SecurityHeaders]
     public class ConsentController : Controller
     {
-        private readonly ConsentService _consent;
+        private readonly ConsentService consent;
 
         public ConsentController(
             IIdentityServerInteractionService interaction,
@@ -21,18 +21,16 @@ namespace SecurityTokenService.Quickstart.Consent
             IResourceStore resourceStore,
             ILogger<ConsentController> logger)
         {
-            _consent = new ConsentService(interaction, clientStore, resourceStore, logger);
+            consent = new ConsentService(interaction, clientStore, resourceStore, logger);
         }
 
         /// <summary>
         /// Shows the consent screen
         /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Index(string returnUrl)
         {
-            var vm = await _consent.BuildViewModelAsync(returnUrl);
+            var vm = await consent.BuildViewModelAsync(returnUrl);
             if (vm != null)
             {
                 return View("Index", vm);
@@ -48,7 +46,7 @@ namespace SecurityTokenService.Quickstart.Consent
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ConsentInputModel model)
         {
-            var result = await _consent.ProcessConsent(model);
+            var result = await consent.ProcessConsent(model);
 
             if (result.IsRedirect)
             {
@@ -57,7 +55,7 @@ namespace SecurityTokenService.Quickstart.Consent
 
             if (result.HasValidationError)
             {
-                ModelState.AddModelError("", result.ValidationError);
+                ModelState.AddModelError(string.Empty, result.ValidationError);
             }
 
             if (result.ShowView)

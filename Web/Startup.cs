@@ -23,18 +23,14 @@ namespace Web
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.SignInScheme = "Cookies";
-
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
-
-                    options.ClientId = SecurityConstants.MvcName;
+                    options.ClientId = SecurityClientConstants.MvcClientId;
                     options.ClientSecret = "secret";
                     options.ResponseType = "code id_token";
-
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
-
-                    options.Scope.Add(SecurityConstants.ApiName);
+                    options.Scope.Add(SecurityClientConstants.ApiResourceId);
                     options.Scope.Add("offline_access");
                 });
         }
